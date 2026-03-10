@@ -15,5 +15,6 @@ export class App { //ko dùng const hay let
   //method funtion
   sayHello(){
     console.log('Hello');
+    alert('Hello' + this.fullname);
   }
 }
