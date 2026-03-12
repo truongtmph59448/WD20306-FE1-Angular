@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App { //ko dùng const hay let
-  title = 'my-app';
-  fullname = 'Angolar 15';
-  age = 20;
+export class App {
+  title = 'my-app'; // ko dung const hay let
+  fullName = 'Truong';
+  age: number = 10;
 
-  //method funtion
-  sayHello(){
-    console.log('Hello');
-    alert('Hello' + this.fullname);
+  // method: function
+  sayHello() {
+    console.log('hello ');
+    alert('hello ' + this.fullName);
   }
 }
