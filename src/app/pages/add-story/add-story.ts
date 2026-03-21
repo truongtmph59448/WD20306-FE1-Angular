@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { StoryService } from '../../services/story';
+import { StoryService } from '../../services/story.service';
 
 @Component({
   selector: 'app-add-story',
@@ -40,7 +40,7 @@ export class AddStory {
 
     const data = this.addForm.value;
 
-    this.storyService.create(data).subscribe({
+    this.storyService.addStory(data).subscribe({
       next: () => {
         this.loading = false;
         this.success = 'Thêm truyện thành công';
