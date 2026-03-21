@@ -2,33 +2,51 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-products',
-  standalone: true,
-  templateUrl: './products.html'
+  selector: 'app-stories',
+  imports: [],
+  templateUrl: './stories.html',
+  styleUrl: './stories.css',
 })
-export class Products implements OnInit {
+export class Stories implements OnInit {
+  stories: any[] = [];
 
-  products: any[] = [];
-
-  loading = true;
-  error = false;
+  loading = false;
+  error = '';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-
-    this.http.get<any>('http://localhost:3000/products')
-      .subscribe({
-        next: (data) => {
-          this.products = data;
-          this.loading = false;
-        },
-        error: () => {
-          this.error = true;
-          this.loading = false;
-        }
-      });
-
+    this.getStories();
   }
 
+    getStories() {
+    this.loading = true;
+    this.error = '';
+
+    this.http.get<any[]>('http://localhost:3000/stories').subscribe({
+      next: (data) => {
+        this.loading = false;
+        this.stories = data;
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Không thể tải dữ liệu';
+      },
+    });
+  }
+
+    deleteStory(id: number) {
+    const confirmDelete = confirm('Bạn có chắc muốn xóa không?');
+    if (!confirmDelete) return;
+
+    this.http.delete(`http://localhost:3000/stories/${id}`).subscribe({
+      next: () => {
+        this.stories = this.stories.filter((story) => story.id !== id);
+        alert('Xóa thành công');
+      },
+      error: () => {
+        alert('Xóa thất bại');
+      },
+    });
+  }
 }
