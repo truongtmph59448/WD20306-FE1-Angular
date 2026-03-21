@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-stories',
-  imports: [],
-  templateUrl: './stories.html',
-  styleUrl: './stories.css',
+  selector: 'app-products',
+  templateUrl: './product.html',
+  styleUrls: ['./product.css']
 })
-export class Stories implements OnInit {
-  stories: any[] = [];
+export class Products implements OnInit {
+
+  products: any[] = [];
 
   loading = false;
   error = '';
@@ -16,37 +16,38 @@ export class Stories implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.getStories();
+    this.getProducts();
   }
 
-    getStories() {
+  getProducts() {
     this.loading = true;
     this.error = '';
 
-    this.http.get<any[]>('http://localhost:3000/stories').subscribe({
+    this.http.get<any[]>('http://localhost:3000/products').subscribe({
       next: (data) => {
         this.loading = false;
-        this.stories = data;
+        this.products = data;
       },
       error: () => {
         this.loading = false;
         this.error = 'Không thể tải dữ liệu';
-      },
+      }
     });
   }
 
-    deleteStory(id: number) {
+  deleteProduct(id: number) {
     const confirmDelete = confirm('Bạn có chắc muốn xóa không?');
     if (!confirmDelete) return;
 
-    this.http.delete(`http://localhost:3000/stories/${id}`).subscribe({
+    this.http.delete(`http://localhost:3000/products/${id}`).subscribe({
       next: () => {
-        this.stories = this.stories.filter((story) => story.id !== id);
+        this.products = this.products.filter(p => p.id !== id);
         alert('Xóa thành công');
       },
       error: () => {
         alert('Xóa thất bại');
-      },
+      }
     });
   }
+
 }

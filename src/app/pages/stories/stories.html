@@ -1,28 +1,31 @@
 <h2>Danh sách truyện</h2>
 
-@if (stories.length === 0) {
-  <p>Không có truyện nào</p>
-} @else {
+@if (loading) {
+<p>Đang tải dữ liệu...</p>
+} @if (error) {
+<p style="color: red">{{ error }}</p>
+} @if (!loading && stories.length === 0) {
+<p>Không có truyện nào</p>
+} @if (stories.length > 0) {
+<table border="1" cellpadding="10" cellspacing="0">
+  <tr>
+    <th>ID</th>
+    <th>Tên truyện</th>
+    <th>Tác giả</th>
+    <th>Lượt xem</th>
+    <th>Hành động</th>
+  </tr>
 
-  @for (story of stories; track story.title) {
-
-    <div class="story-card">
-      <h3>
-        {{ story.title }}
-
-        @if (story.views > 90000) {
-          <span style="color:red">🔥 HOT</span>
-        }
-      </h3>
-
-      <img [src]="story.image" width="120" />
-
-      <p>Năm phát hành: {{ story.year }}</p>
-      <p>Thể loại: {{ story.genre }}</p>
-      <p>Lượt xem: {{ story.views }}</p>
-
-    </div>
-
+  @for (story of stories; track story.id) {
+  <tr>
+    <td>{{ story.id }}</td>
+    <td>{{ story.title }}</td>
+    <td>{{ story.author }}</td>
+    <td>{{ story.views }}</td>
+    <td>
+      <button (click)="deleteStory(story.id)">Xóa</button>
+    </td>
+  </tr>
   }
-
+</table>
 }

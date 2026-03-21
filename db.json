@@ -1,9 +1,35 @@
 {
   "stories": [
     {
-      "title": "naruto",
-      "id": 1
+      "id": 1,
+      "title": "Dragon Ball",
+      "year": 1984,
+      "genre": "Action",
+      "image": "https://upload.wikimedia.org/wikipedia/vi/4/4f/Dragon_Ball_Super_artwork.jpg",
+      "views": 100000
+    },
+    {
+      "id": 2,
+      "title": "Attack On Titan",
+      "year": 2009,
+      "genre": "Dark Fantasy",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXZLQGN5inUbUYyz9Oj6smYPij-2bhDy8taA&s",
+      "views": 95000
     }
   ],
-  "users": []
+
+  "products": [
+    {
+      "id": 1,
+      "name": "iPhone 15",
+      "price": 20000000,
+      "views": 100000
+    },
+    {
+      "id": 2,
+      "name": "Samsung S24",
+      "price": 18000000,
+      "views": 80000
+    }
+  ]
 }

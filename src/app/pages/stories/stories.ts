@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-stories',
@@ -6,28 +7,46 @@ import { Component } from '@angular/core';
   templateUrl: './stories.html',
   styleUrl: './stories.css',
 })
-export class Stories {
-  stories = [
-    {
-      title: 'Dragon Ball',
-      year: 1984,
-      genre: 'Action',
-      image: 'https://upload.wikimedia.org/wikipedia/vi/4/4f/Dragon_Ball_Super_artwork.jpg',
-      views: 100000,
-    },
-    {
-      title: 'Attack On Titan',
-      year: 2009,
-      genre: 'Dark Fantasy',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXZLQGN5inUbUYyz9Oj6smYPij-2bhDy8taA&s',
-      views: 95000,
-    },
-    {
-      title: 'Bleach',
-      year: 2001,
-      genre: 'Supernatural',
-      image: 'https://upload.wikimedia.org/wikipedia/vi/5/53/Bleach_cover_01.jpg',
-      views: 80000,
-    },
-  ];
+export class Stories implements OnInit {
+  stories: any[] = [];
+
+  loading = false;
+  error = '';
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.getStories();
+  }
+
+  getStories() {
+    this.loading = true;
+    this.error = '';
+
+    this.http.get<any[]>('http://localhost:3000/stories').subscribe({
+      next: (data) => {
+        this.loading = false;
+        this.stories = data;
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Không thể tải dữ liệu';
+      },
+    });
+  }
+
+  deleteStory(id: number) {
+    const confirmDelete = confirm('Bạn có chắc muốn xóa không?');
+    if (!confirmDelete) return;
+
+    this.http.delete(`http://localhost:3000/stories/${id}`).subscribe({
+      next: () => {
+        this.stories = this.stories.filter((story) => story.id !== id);
+        alert('Xóa thành công');
+      },
+      error: () => {
+        alert('Xóa thất bại');
+      },
+    });
+  }
 }
